@@ -12,6 +12,32 @@
 
 ---
 
+## #002 — Cross-platform render PoC (Windows verified, macOS/Linux pending CI)
+
+- **Date**: 2026-05-13
+- **Status**: Active (partial)
+
+### Context
+
+Spec의 "Cross-platform 검증 포인트 #1" — @resvg/resvg-js WebAssembly가 Windows/macOS/Linux 모두에서 npm install로 즉시 동작하고 한글 렌더가 깨지지 않는지 검증 필요.
+
+### Decision
+
+Windows에서 Satori 0.26.0 + @resvg/resvg-js 2.6.2 조합으로 PoC 통과 확인.
+macOS/Linux 검증은 GitHub 리포지토리 푸시 후 `.github/workflows/poc.yml` 의 `workflow_dispatch` 로 별도 수행 예정.
+
+### Consequences
+
+- 본 설계의 핵심 가정(cross-platform 렌더)은 Windows에서 입증됨
+- 실제 라이브러리 버전: satori ^0.26.0, @resvg/resvg-js ^2.6.2
+- 한글("안녕하세요") 렌더 완전 정상 — 깨짐 없음
+- 이모지(🎉)는 Noto Sans KR 폰트에 이모지 글리프가 없어 tofu 박스로 표시됨 (이모지 폰트 별도 번들 필요, 차후 과제)
+- Google Fonts CSS API(`fonts.googleapis.com/css2`)로 실제 gstatic.com TTF URL을 추출해 사용 (원본 plan의 v36 URL은 HTML 리다이렉트 반환으로 교체)
+- 사용된 폰트 URL: `https://fonts.gstatic.com/s/notosanskr/v39/PbyxFmXiEBPT4ITbgNA5Cgms3VYcOA-vvnIzzuoyeLQ.ttf`
+- macOS/Linux 검증 완료 시 본 항목 Status를 'Active'로 변경
+
+---
+
 ## #001 — 초기 설계 합의 (Brainstorming v2)
 
 - **Date**: 2026-05-13

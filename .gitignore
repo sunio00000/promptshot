@@ -1,0 +1,27 @@
+# Node.js
+node_modules/
+poc/*/node_modules/
+
+# pnpm
+.pnpm-store/
+
+# 빌드 결과물
+dist/
+out/
+*.vsix
+
+# 다운로드된 폰트 (런타임에 자동 다운로드)
+poc/01-render/NotoSansKR.ttf
+
+# 로그
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code (확장 개발용은 제외)
+.vscode/settings.json
+.vscode/launch.json
