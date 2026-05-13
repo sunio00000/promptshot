@@ -15,7 +15,7 @@
 ## #002 — Cross-platform render PoC (Windows verified, macOS/Linux pending CI)
 
 - **Date**: 2026-05-13
-- **Status**: Active (partial)
+- **Status**: Active
 
 ### Context
 

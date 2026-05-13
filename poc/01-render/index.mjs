@@ -34,6 +34,7 @@ if (!existsSync(fontPath)) {
   const url =
     'https://fonts.gstatic.com/s/notosanskr/v39/PbyxFmXiEBPT4ITbgNA5Cgms3VYcOA-vvnIzzuoyeLQ.ttf'
   const res = await fetch(url)
+  if (!res.ok) throw new Error(`폰트 다운로드 실패: ${res.status} ${url}`)
   writeFileSync(fontPath, Buffer.from(await res.arrayBuffer()))
   console.log('폰트 다운로드 완료:', fontPath)
 }
