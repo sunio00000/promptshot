@@ -15,7 +15,8 @@
 ## #003 — Webview 이미지 클립보드 PoC
 
 - **Date**: 2026-05-14
-- **Status**: Pending verification
+- **Status**: Active
+- **F5 verification**: 2026-05-14, user confirmed "Clipboard OK" + paste into Paint/Slack works
 
 ### Context
 
