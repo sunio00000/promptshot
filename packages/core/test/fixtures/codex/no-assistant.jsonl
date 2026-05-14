@@ -1,0 +1,4 @@
+{"timestamp":"2026-01-01T00:00:01.000Z","type":"session_meta","payload":{"id":"test-session-0003","timestamp":"2026-01-01T00:00:00.000Z","cwd":"C:\\Users\\test\\Desktop\\test-project","originator":"codex_vscode","cli_version":"0.130.0","source":"vscode","model_provider":"openai"}}
+{"timestamp":"2026-01-01T00:00:01.001Z","type":"event_msg","payload":{"type":"task_started","turn_id":"test-turn-0005","started_at":1751328001,"model_context_window":128000,"collaboration_mode_kind":"default"}}
+{"timestamp":"2026-01-01T00:00:01.002Z","type":"event_msg","payload":{"type":"user_message","message":"어시스턴트 응답 없이 끝난 사용자 메시지","images":[],"local_images":[],"text_elements":[]}}
+{"timestamp":"2026-01-01T00:00:01.003Z","type":"response_item","payload":{"type":"message","role":"user","content":[{"type":"input_text","text":"어시스턴트 응답 없이 끝난 사용자 메시지"}]}}
