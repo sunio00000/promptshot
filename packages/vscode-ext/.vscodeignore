@@ -1,0 +1,5 @@
+src/**
+tsconfig.json
+vitest.config.ts
+test/**
+node_modules/.cache
