@@ -7,7 +7,7 @@
   "publisher": "TBD-set-before-publish",
   "engines": { "vscode": "^1.85.0" },
   "categories": ["Visualization", "Other"],
-  "keywords": ["ai", "chat", "screenshot", "claude", "codex", "share", "carbon"],
+  "keywords": ["ai", "chat", "screenshot", "claude", "codex", "share"],
   "main": "./dist/extension.js",
   "activationEvents": [
     "onCommand:promptshot.captureLastExchange",
@@ -32,7 +32,11 @@
       "properties": {
         "promptshot.theme":   { "type": "string", "enum": ["mac-light", "mac-dark"], "default": "mac-light" },
         "promptshot.source":  { "type": "string", "enum": ["auto", "codex", "claude-code"], "default": "auto" },
-        "promptshot.outputDir": { "type": "string", "default": "" },
+        "promptshot.outputDir": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Directory to save captured PNGs. Leave empty to use `~/Pictures/Promptshot`."
+        },
         "promptshot.width":   { "type": "number", "default": 720 },
         "promptshot.maxHeight": { "type": "number", "default": 4000 },
         "promptshot.includeTools": { "type": "boolean", "default": false },
