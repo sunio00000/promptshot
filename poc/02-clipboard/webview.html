@@ -1,0 +1,17 @@
+<!doctype html><html><body>
+<script>
+  const vscode = acquireVsCodeApi()
+  vscode.postMessage({ type: 'ready' })
+  window.addEventListener('message', async (ev) => {
+    if (ev.data.type !== 'png') return
+    try {
+      const res = await fetch('data:image/png;base64,' + ev.data.data)
+      const blob = await res.blob()
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+      vscode.postMessage({ type: 'done', ok: true })
+    } catch (e) {
+      vscode.postMessage({ type: 'done', ok: false, error: String(e) })
+    }
+  })
+</script>
+</body></html>

@@ -1,0 +1,11 @@
+{
+  "name": "poc-clipboard",
+  "engines": { "vscode": "^1.85.0" },
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      { "command": "pocClipboard.test", "title": "PoC: Image Clipboard Test" }
+    ]
+  },
+  "activationEvents": ["onCommand:pocClipboard.test"]
+}

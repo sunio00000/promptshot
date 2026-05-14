@@ -12,6 +12,41 @@
 
 ---
 
+## #003 — Webview 이미지 클립보드 PoC
+
+- **Date**: 2026-05-14
+- **Status**: Pending verification
+
+### Context
+
+`vscode.env.clipboard`는 텍스트 전용이다. PNG 이미지를 OS 클립보드에 쓰려면 대안이 필요하다.
+Spec의 "Cross-platform 검증 포인트 #2" — Webview 내부에서 browser Clipboard API(`navigator.clipboard.write(new ClipboardItem(...))`)로 이미지를 OS 클립보드에 쓸 수 있는지 검증.
+이 가정이 실패하면 플랫폼별 셸 명령(xclip/pbcopy/clip.exe)으로 대체해야 하며, Cross-platform 단일 코드 원칙을 위반하게 된다.
+
+### Decision
+
+`poc/02-clipboard/` 에 최소 VS Code 확장을 스캐폴드한다:
+- `extension.js`: Webview 패널을 생성하고 1x1 빨간 PNG(base64)를 전달
+- `webview.html`: `navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])` 호출 후 결과를 `done` 메시지로 반환
+- `package.json`: 확장 매니페스트 (vscode ^1.85.0)
+
+사용자가 Extension Development Host(F5)로 직접 실행하여 "Clipboard OK" 알림 확인 후 그림판/Slack에 Ctrl+V로 붙여넣어 빨간 픽셀이 나타나는지 검증한다.
+
+### Consequences
+
+**성공 시 (예상)**:
+- Webview → OS 클립보드 경로가 확립되어 플랫폼별 코드 없이 cross-platform 이미지 복사 구현 가능
+- 최종 확장에서는 panel을 숨기거나(`retainContextWhenHidden: true` + 오프스크린 배치) 즉시 dispose하여 UX에 노출하지 않는다
+- 권한 프롬프트 발생 여부 확인 필요 (첫 실행 시 브라우저 스타일 허용 팝업 가능성)
+
+**실패 시 (대안)**:
+- Webview Clipboard API가 차단될 경우: PNG 파일을 `os.tmpdir()`에 저장 후 `vscode.window.showInformationMessage`에 "Reveal in Folder" 버튼 제공하는 방식으로 대체
+- 이 경우 ADR을 업데이트하고 Status를 `Superseded by #004`로 변경
+
+**사용자 F5 검증 필요**: 이 ADR은 수동 실행 확인 후 Status를 `Active` 또는 `Superseded`로 갱신해야 한다.
+
+---
+
 ## #002 — Cross-platform render PoC (Windows verified, macOS/Linux pending CI)
 
 - **Date**: 2026-05-13
