@@ -1,3 +1,4 @@
 export * from './types.js'
 export type { ChatSource } from './sources/types.js'
 export { CodexSource } from './sources/codex.js'
+export { ClaudeCodeSource } from './sources/claude-code.js'
