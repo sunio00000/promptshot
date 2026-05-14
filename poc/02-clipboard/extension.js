@@ -14,9 +14,15 @@ function activate(context) {
     const html = fs.readFileSync(path.join(__dirname, 'webview.html'), 'utf8')
     panel.webview.html = html
 
+    const timeout = setTimeout(() => {
+      vscode.window.showWarningMessage('Clipboard PoC: Webview 응답 없음 (타임아웃)')
+      panel.dispose()
+    }, 5000)
+
     panel.webview.onDidReceiveMessage(msg => {
       if (msg.type === 'ready') panel.webview.postMessage({ type: 'png', data: pngBase64 })
       if (msg.type === 'done') {
+        clearTimeout(timeout)
         vscode.window.showInformationMessage(msg.ok ? 'Clipboard OK' : `Clipboard FAIL: ${msg.error}`)
         panel.dispose()
       }
