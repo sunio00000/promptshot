@@ -1,0 +1,14 @@
+{
+  "name": "promptshot-workspace",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  },
+  "packageManager": "pnpm@9.0.0"
+}
