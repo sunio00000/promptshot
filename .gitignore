@@ -25,3 +25,6 @@ Thumbs.db
 # VS Code (확장 개발용은 제외)
 .vscode/settings.json
 .vscode/launch.json
+
+# @vscode/test-electron 캐시
+.vscode-test/
