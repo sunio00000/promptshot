@@ -5,6 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": ["dist", "assets/fonts"],
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
