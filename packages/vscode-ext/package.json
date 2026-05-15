@@ -109,9 +109,10 @@
     }
   },
   "scripts": {
-    "build": "tsc && node ../../scripts/copy-assets.mjs",
-    "test": "tsc -p . && node ./dist/test/runTest.js",
-    "package": "vsce package --no-dependencies"
+    "build": "node build.mjs",
+    "build:test": "tsc -p tsconfig.test.json",
+    "test": "pnpm build:test && node ./dist-test/test/runTest.js",
+    "package": "pnpm build && vsce package --no-dependencies"
   },
   "dependencies": {
     "@promptshot/core": "workspace:*"
@@ -123,6 +124,7 @@
     "@types/vscode": "^1.85.0",
     "@vscode/test-electron": "^2.4.0",
     "@vscode/vsce": "^2.27.0",
+    "esbuild": "^0.28.0",
     "glob": "^13.0.6",
     "mocha": "^11.7.5",
     "typescript": "^5.4.0",

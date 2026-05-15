@@ -7,6 +7,7 @@ poc/*/node_modules/
 
 # 빌드 결과물
 dist/
+dist-test/
 out/
 *.vsix
 # copy-assets.mjs가 루트 LICENSE를 복사하는 파일 (루트 LICENSE가 원본)

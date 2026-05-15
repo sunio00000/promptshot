@@ -1,5 +1,8 @@
 import satori from 'satori'
-import { Resvg } from '@resvg/resvg-js'
+import { Resvg, initWasm } from '@resvg/resvg-wasm'
+import { readFileSync, existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { dirname, join } from 'node:path'
 import type { Exchange } from '../types.js'
 import type { Theme } from '../theme/types.js'
 import { loadFonts } from '../theme/fonts.js'
@@ -8,7 +11,37 @@ import { mdastToSatori, type SatoriNode } from './jsx.js'
 
 export type RenderOptions = { width?: number; maxHeight?: number }
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+// wasm 파일 후보 경로 목록 (개발/번들/테스트 환경 순서로 탐색)
+const WASM_CANDIDATES = [
+  join(__dirname, '../../node_modules/@resvg/resvg-wasm/index_bg.wasm'), // 개발: packages/core/dist/render/ → packages/core/node_modules/
+  join(__dirname, '../../../node_modules/@resvg/resvg-wasm/index_bg.wasm'), // 모노레포 루트 node_modules
+  join(__dirname, '../../../../node_modules/@resvg/resvg-wasm/index_bg.wasm'), // pnpm 호이스팅
+  join(__dirname, 'resvg.wasm'),  // 번들: vscode-ext/dist/ 에 복사된 wasm
+  join(__dirname, '../resvg.wasm')
+]
+
+let wasmInitialized = false
+
+async function ensureWasmInitialized(): Promise<void> {
+  if (wasmInitialized) return
+  for (const candidate of WASM_CANDIDATES) {
+    if (existsSync(candidate)) {
+      const buf = readFileSync(candidate)
+      await initWasm(buf)
+      wasmInitialized = true
+      return
+    }
+  }
+  throw new Error(
+    `@resvg/resvg-wasm: index_bg.wasm not found. Tried:\n${WASM_CANDIDATES.join('\n')}`
+  )
+}
+
 export async function renderExchange(ex: Exchange, theme: Theme, opts: RenderOptions = {}): Promise<Buffer> {
+  await ensureWasmInitialized()
+
   const width = opts.width ?? 720
   const userBody = await mdastToSatori(parseMarkdown(ex.user.content), theme)
   const aiBody = await mdastToSatori(parseMarkdown(ex.assistant.content), theme)
