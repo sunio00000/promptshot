@@ -9,6 +9,8 @@ poc/*/node_modules/
 dist/
 out/
 *.vsix
+# copy-assets.mjs가 루트 LICENSE를 복사하는 파일 (루트 LICENSE가 원본)
+packages/vscode-ext/LICENSE
 
 # 다운로드된 폰트 (런타임에 자동 다운로드)
 poc/01-render/NotoSansKR.ttf

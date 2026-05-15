@@ -11,6 +11,12 @@ const tasks = [
   {
     src: resolve(root, 'packages/vscode-ext/src/clipboard/webview.html'),
     dst: resolve(root, 'packages/vscode-ext/dist/clipboard/webview.html')
+  },
+  // vsce는 패키지 디렉토리에서 LICENSE 파일을 직접 찾으므로
+  // 워크스페이스 루트의 LICENSE를 vscode-ext 디렉토리에 복사합니다.
+  {
+    src: resolve(root, 'LICENSE'),
+    dst: resolve(root, 'packages/vscode-ext/LICENSE')
   }
 ]
 

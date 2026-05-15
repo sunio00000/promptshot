@@ -12,6 +12,33 @@
 
 ---
 
+## #005 — Phase 10 readiness (release prep)
+
+- **Date**: 2026-05-15
+- **Status**: Active (pending user-driven publish)
+
+### Context
+
+Implementation complete: 31/31 tests passing across packages/core (29 unit) and packages/vscode-ext (2 integration). All 5 commands wired up. Cross-platform render verified.
+
+### Decision
+
+Scaffold release artifacts that don't require credentials:
+- LICENSE (MIT) at workspace root
+- CHANGELOG.md with v0.1.0 entry
+- docs/RELEASE.md with manual publish checklist
+- `package.json` references license
+
+Tasks 10.2 (publisher registration on Azure DevOps Marketplace) and 10.3 (`vsce publish`) require the user's Personal Access Token and account — those are user-driven steps documented in RELEASE.md.
+
+### Consequences
+
+- Anyone can clone, build, and produce a .vsix locally
+- Publishing path is documented and unblocked
+- Real brand icon (#004) and real publisher ID are the two remaining blockers before public release
+
+---
+
 ## #004 — Placeholder Marketplace Icon
 
 - **Date**: 2026-05-15

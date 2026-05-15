@@ -8,6 +8,8 @@
     "samples": "pnpm -C packages/core build && node scripts/generate-samples.mjs"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.0",
+    "satori": "^0.26.0",
     "typescript": "^5.4.0",
     "vitest": "^1.6.0"
   },
