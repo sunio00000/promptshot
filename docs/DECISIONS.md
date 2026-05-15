@@ -12,6 +12,45 @@
 
 ---
 
+## #004 — Placeholder Marketplace Icon
+
+- **Date**: 2026-05-15
+- **Status**: Active (placeholder; real design pending)
+
+### Context
+
+VS Code Marketplace는 확장 리스팅에 128x128 PNG 아이콘을 요구한다. 팀에 전담 디자이너가 없고, Phase 10 (Marketplace 정식 발행)을 창의 작업에 막고 싶지 않다.
+
+### Decision
+
+Satori(캡쳐 렌더링에 이미 사용 중인 도구)로 아이콘을 프로그래밍 방식 생성한다:
+- macOS 스타일 미니 윈도우 카드 (흰색 배경, 둥근 모서리)
+- 상단 크롬에 트래픽 라이트 (빨강/노랑/초록 3개 원)
+- 중앙에 큰 "P" 문자
+- 자주색 그래디언트 배경 (135deg, `#6e7bf0` → `#b06ef0`)
+- 출력: `packages/vscode-ext/icon.png` (128x128, 5248 바이트)
+- 생성 스크립트: `scripts/generate-icon.mjs` (재현 가능, Pretendard-Bold 폰트 사용)
+
+### Consequences
+
+**긍정적**:
+- Marketplace 요구사항 충족 → Phase 10 발행 차단 해제
+- 스크립트 기반 생성으로 브랜딩 업데이트 시 프로그래밍 가능
+- 크로스플랫폼 재현성 — 모든 개발자가 동일 아이콘 생성 가능
+
+**부정적/대기**:
+- 실제 브랜드 디자인 필요 (v1.0.0 대중 공개 전 교체)
+- 임시 솔루션: 공식 Marketplace 목록에 노출되기 전 "이것은 플레이스홀더"라고 명기할 것
+- 별도 태스크로 "마이크로소프트 로고/브랜드 가이드라인 준수하는 실제 아이콘 디자인" 추적 필요
+
+### Notes
+
+- 사용된 의존성: satori ^0.26.0, @resvg/resvg-js ^2.6.2 (기존 stack)
+- 폰트 자산: `packages/core/assets/fonts/Pretendard-Bold.ttf` (번들된 폰트 재사용)
+- `package.json`에 `"icon": "icon.png"` 필드 추가 (vsce package에서 인식)
+
+---
+
 ## #003 — Webview 이미지 클립보드 PoC
 
 - **Date**: 2026-05-14

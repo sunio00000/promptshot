@@ -21,6 +21,7 @@
     "share"
   ],
   "main": "./dist/extension.js",
+  "icon": "icon.png",
   "activationEvents": [
     "onCommand:promptshot.captureLastExchange",
     "onCommand:promptshot.captureAsMarkdown",
