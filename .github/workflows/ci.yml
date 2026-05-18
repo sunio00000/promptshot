@@ -20,4 +20,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm -r build
-      - run: pnpm -r test
+      - name: Test (Linux — needs xvfb for VS Code Electron tests)
+        if: matrix.os == 'ubuntu-latest'
+        run: xvfb-run -a pnpm -r test
+      - name: Test (macOS / Windows)
+        if: matrix.os != 'ubuntu-latest'
+        run: pnpm -r test
