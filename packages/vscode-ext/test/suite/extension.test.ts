@@ -2,11 +2,14 @@ import * as assert from 'node:assert'
 import * as vscode from 'vscode'
 
 suite('Promptshot Extension', () => {
-  test('all 5 commands are registered after activation', async () => {
-    // 테스트 러너의 extensionDevelopmentPath를 통해 익스텐션이 로드됨
-    // 명시적으로 activate 시도
-    const ext = vscode.extensions.getExtension('TBD-set-before-publish.promptshot')
-    if (ext) await ext.activate()
+  test('all 5 commands are registered after activation', async function () {
+    // 번들된 dist/extension.js(~10MB) 파싱 시간 + activate() 시간을 위해
+    // 기본 2s mocha timeout을 30s로 확장.
+    this.timeout(30000)
+    // publisher가 바뀌어도 깨지지 않게 package.json name으로 lookup.
+    const ext = vscode.extensions.all.find(e => e.packageJSON.name === 'promptshot')
+    assert.ok(ext, 'Promptshot extension must be discoverable by name')
+    await ext.activate()
 
     const all = await vscode.commands.getCommands(true)
     const expected = [
