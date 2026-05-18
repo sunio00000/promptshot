@@ -18,7 +18,7 @@ For markdown instead, run `Promptshot: Capture as Markdown` from the command pal
 | Command | Keybinding |
 |---|---|
 | Promptshot: Capture Last Exchange | `Ctrl+Alt+P` / `Cmd+Alt+P` |
-| Promptshot: Capture as Markdown | `Ctrl+Alt+M` / `Cmd+Alt+M` |
+| Promptshot: Capture as Markdown | `Ctrl+Alt+Shift+P` / `Cmd+Alt+Shift+P` |
 | Promptshot: Pick Session… | — |
 | Promptshot: Choose Theme… | — |
 | Promptshot: Open Last Capture | — |

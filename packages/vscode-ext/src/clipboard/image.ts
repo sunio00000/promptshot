@@ -1,10 +1,21 @@
 import * as vscode from 'vscode'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { copyImageToClipboardViaShell } from './imageShell'
 
 const TIMEOUT_MS = 5000
 
+/**
+ * Webview Clipboard API를 먼저 시도하고 실패 시(거의 항상 transient-activation
+ * 제한 때문) OS shell 명령으로 폴백한다.
+ */
 export async function copyImageToClipboard(context: vscode.ExtensionContext, png: Buffer): Promise<boolean> {
+  const webviewOk = await tryWebview(context, png)
+  if (webviewOk) return true
+  return copyImageToClipboardViaShell(png)
+}
+
+function tryWebview(context: vscode.ExtensionContext, png: Buffer): Promise<boolean> {
   return new Promise<boolean>(resolve => {
     const panel = vscode.window.createWebviewPanel(
       'promptshotClipboard',

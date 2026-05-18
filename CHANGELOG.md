@@ -2,6 +2,15 @@
 
 All notable changes to Promptshot will be documented here.
 
+## [0.1.2] — 2026-05-18
+
+### Fixed
+- **Image clipboard now reliably works.** Previously, Webview's `navigator.clipboard.write` consistently failed in production due to browser transient-activation restrictions. Added OS shell fallback (Windows PowerShell · macOS osascript · Linux xclip) that fires automatically when the Webview path fails. Users no longer see "(file only — clipboard failed)" in the common case.
+- `Promptshot: Capture as Markdown` keybinding moved from `Ctrl+Alt+M` to `Ctrl+Alt+Shift+P` (Mac: `Cmd+Alt+Shift+P`). The previous `Ctrl+Alt+M` could conflict with other extensions or be intercepted by some IMEs; the new chord sits next to `Ctrl+Alt+P` for muscle memory and uses Shift to avoid common conflicts.
+
+### Notes
+- Linux users without `xclip` installed will still see clipboard failure; the file path is shown in the notification so they can `xclip -selection clipboard -t image/png -i <file>` manually. A future patch may detect and surface the missing tool more visibly.
+
 ## [0.1.1] — 2026-05-18
 
 ### Added

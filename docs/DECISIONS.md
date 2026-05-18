@@ -12,6 +12,45 @@
 
 ---
 
+## #006 — OS shell fallback for image clipboard
+
+- **Date**: 2026-05-18
+- **Status**: Active
+- **Affects**: ADR #003 (Webview clipboard PoC) — partially superseded; webview remains the primary attempt but is no longer the only path.
+
+### Context
+
+ADR #003 verified that `navigator.clipboard.write(new ClipboardItem(...))` works in a VS Code Webview during F5 development. In production, after publishing to Marketplace, users consistently report that the clipboard step fails — only the file save succeeds.
+
+Root cause: browser Clipboard API requires **transient activation** — a recent user gesture (click/keypress) on the document calling the API. The hidden Webview receives a `postMessage` from the extension and writes immediately, with no user gesture inside the webview. Chromium (and therefore VS Code) blocks this with `NotAllowedError`.
+
+ADR #003의 "성공 시 (대안)" assumed clipboard would work most of the time. Reality is the opposite — it consistently fails.
+
+### Decision
+
+Implement platform-specific shell-command fallbacks while keeping the webview attempt as a first try:
+
+1. Try Webview clipboard (cheap, no shell spawn, works on some configs)
+2. On webview failure, fall back to OS shell:
+   - Windows: PowerShell `[System.Windows.Forms.Clipboard]::SetImage`
+   - macOS: `osascript ... «class PNGf»`
+   - Linux: `xclip -selection clipboard -t image/png`
+3. If both fail, file-only notification with the path (existing behavior).
+
+### Consequences
+
+**Trade-offs accepted:**
+- Decision #001 item 9 said "Windows/macOS/Linux 동일 코드, 네이티브 모듈 금지". Shell commands are platform-specific code — a partial deviation. But they are NOT native modules (no compilation, no node-gyp), and they are bundled into the same single `.vsix` artifact. The cross-platform single-artifact distribution principle holds.
+- Linux users need `xclip` on PATH. Most distros ship it; users without it will see clipboard failure. A future improvement could detect missing `xclip` and prompt installation.
+- Shell spawn adds ~50-200ms per capture (acceptable for a one-keystroke UX).
+
+**Positive:**
+- Core feature (clipboard) now reliably works on the dominant platforms (Windows + macOS).
+- No new dependencies; uses platform-bundled tools.
+- Graceful degradation: webview → shell → file-only, with the user always getting something usable.
+
+---
+
 ## #005 — Phase 10 readiness (release prep)
 
 - **Date**: 2026-05-15
