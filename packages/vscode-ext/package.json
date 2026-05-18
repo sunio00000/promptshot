@@ -62,6 +62,11 @@
         "command": "promptshot.captureLastExchange",
         "key": "ctrl+alt+p",
         "mac": "cmd+alt+p"
+      },
+      {
+        "command": "promptshot.captureAsMarkdown",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m"
       }
     ],
     "configuration": {
