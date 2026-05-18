@@ -1,44 +1,44 @@
-# Promptshot — Beautiful AI Chat Captures
+# Promptshot
 
-Capture VS Code's secondary-sidebar AI chat (Codex / Claude Code) as shareable PNG images or clean markdown — in one keystroke.
+Capture VS Code's AI chat (Codex / Claude Code) as a beautiful PNG or clean markdown — one keystroke, ready to paste into Slack or email.
 
-> Press `Ctrl+Alt+P` (Mac: `Cmd+Alt+P`) on the last user→AI exchange. The macOS-styled image lands on your clipboard, ready to paste into Slack, email, or anywhere.
+<!-- TODO: After first push to GitHub, replace the URL below with:
+     https://raw.githubusercontent.com/<YOUR_GITHUB_USERNAME>/promptshot/main/docs/screenshots/hero.png -->
+![](https://raw.githubusercontent.com/USER/promptshot/main/docs/samples/mac-light-longish.png)
 
-## Features
+## Usage
 
-- **One keystroke** to capture the last user → AI exchange
-- **macOS-styled** window chrome with traffic lights
-- **Cross-platform** — Windows / macOS / Linux (no native modules)
-- **Two formats** — PNG (image clipboard + file) or clean markdown
-- **Two themes** — `mac-light` and `mac-dark`
-- **Auto-redaction** for API keys, GitHub tokens, JWTs, AWS / Google keys
-- **Two AI sources** — Codex and Claude Code (auto-detect latest, or pin)
+1. Install from VS Code Marketplace.
+2. While using Codex or Claude Code in VS Code, press **`Ctrl+Alt+P`** (Mac: **`Cmd+Alt+P`**).
+3. The image lands on your clipboard and saves to `~/Pictures/Promptshot/`. Paste it anywhere.
+
+For markdown instead, run `Promptshot: Capture as Markdown` from the command palette.
 
 ## Commands
 
-| Command | Default keybinding |
+| Command | Keybinding |
 |---|---|
 | Promptshot: Capture Last Exchange | `Ctrl+Alt+P` / `Cmd+Alt+P` |
-| Promptshot: Capture as Markdown | (Command Palette) |
-| Promptshot: Pick Session… | (Command Palette) |
-| Promptshot: Choose Theme… | (Command Palette) |
-| Promptshot: Open Last Capture | (Command Palette) |
+| Promptshot: Capture as Markdown | — |
+| Promptshot: Pick Session… | — |
+| Promptshot: Choose Theme… | — |
+| Promptshot: Open Last Capture | — |
 
 ## Settings
 
-| Setting | Default | Notes |
+| Setting | Default | What it does |
 |---|---|---|
 | `promptshot.theme` | `mac-light` | `mac-light` or `mac-dark` |
-| `promptshot.source` | `auto` | `auto`, `codex`, or `claude-code` |
-| `promptshot.outputDir` | (empty → `~/Pictures/Promptshot`) | Save folder for PNGs |
-| `promptshot.width` | `720` | Image width (px) |
-| `promptshot.maxHeight` | `4000` | Truncate very long messages |
-| `promptshot.includeTools` | `false` | Include tool_use messages |
-| `promptshot.includeSystem` | `false` | Include system messages |
+| `promptshot.source` | `auto` | `auto`, `codex`, or `claude-code` — pin a source if auto picks the wrong one |
+| `promptshot.outputDir` | `~/Pictures/Promptshot` | Where PNGs are saved |
+| `promptshot.width` | `720` | Image width in pixels |
 
-## How it works
+**Advanced**: `promptshot.maxHeight` (4000), `promptshot.includeTools` (false), `promptshot.includeSystem` (false).
 
-Reads the most recent JSONL session log from `~/.codex/sessions/` or `~/.claude/projects/`, extracts the last user→AI exchange, and renders it via Satori + resvg-js into a PNG. Image clipboard uses a hidden Webview with the browser Clipboard API — fully cross-platform.
+## Troubleshooting
+
+**Capturing the wrong session?**
+Promptshot picks whichever AI session was most recently active. If you have multiple Codex / Claude Code sessions running, set `promptshot.source` to lock to one.
 
 ## License
 
