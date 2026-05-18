@@ -2,9 +2,7 @@
 
 Capture VS Code's AI chat (Codex / Claude Code) as a beautiful PNG or clean markdown — one keystroke, ready to paste into Slack or email.
 
-<!-- TODO: After first push to GitHub, replace the URL below with:
-     https://raw.githubusercontent.com/<YOUR_GITHUB_USERNAME>/promptshot/main/docs/screenshots/hero.png -->
-![](https://raw.githubusercontent.com/USER/promptshot/main/docs/samples/mac-light-longish.png)
+![](https://raw.githubusercontent.com/sunio00000/promptshot/main/docs/samples/mac-light-longish.png)
 
 ## Usage
 
