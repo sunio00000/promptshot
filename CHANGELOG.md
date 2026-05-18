@@ -2,6 +2,15 @@
 
 All notable changes to Promptshot will be documented here.
 
+## [0.1.1] — 2026-05-18
+
+### Added
+- `Promptshot: Pick Session…` is now a two-stage picker: choose a session, then choose output format (PNG / Markdown). This lets you capture exchanges other than the most recent one.
+- `selectLatestExchange` accepts `sessionPath` to force a specific session file (used internally by Pick Session).
+
+### Fixed
+- `promptshot.maxHeight` setting now actually works. Previously declared but unused; very long messages would render into enormous PNGs. Now content is truncated with a "(N more chars)" footer when the message length exceeds an approximate budget derived from maxHeight.
+
 ## [0.1.0] — 2026-05-18
 
 Initial release.

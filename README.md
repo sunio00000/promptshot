@@ -23,6 +23,8 @@ For markdown instead, run `Promptshot: Capture as Markdown` from the command pal
 | Promptshot: Choose Theme… | — |
 | Promptshot: Open Last Capture | — |
 
+**Pick Session…** lets you choose an older session (not just the most recent) and pick image or markdown output.
+
 ## Settings
 
 | Setting | Default | What it does |

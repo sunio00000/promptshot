@@ -13,6 +13,40 @@ export type RenderOptions = { width?: number; maxHeight?: number }
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
+// Approximate char budget from maxHeight pixels.
+// 14px font, ~50 chars/line, ~25px/line → maxHeight px ≈ (maxHeight / 25 * 50) chars.
+// Subtract ~120px for window chrome / labels overhead.
+function applyMaxHeight(ex: Exchange, maxHeight: number | undefined): Exchange {
+  if (!maxHeight || maxHeight <= 0) return ex
+  const budget = Math.max(500, Math.floor((maxHeight - 120) / 25 * 50))
+  const userLen = ex.user.content.length
+  const aiLen = ex.assistant.content.length
+  if (userLen + aiLen <= budget) return ex
+
+  // Reserve up to budget/3 for user; rest for assistant
+  const userBudget = Math.min(userLen, Math.floor(budget / 3))
+  const aiBudget = Math.max(200, budget - userBudget)
+
+  let user = ex.user.content
+  let assistant = ex.assistant.content
+  if (user.length > userBudget) {
+    const cut = user.length - userBudget
+    user = user.slice(0, userBudget) + `\n\n_…(truncated, ${cut.toLocaleString()} more chars)_`
+  }
+  if (assistant.length > aiBudget) {
+    const cut = assistant.length - aiBudget
+    assistant = assistant.slice(0, aiBudget) + `\n\n_…(truncated, ${cut.toLocaleString()} more chars)_`
+  }
+
+  return {
+    ...ex,
+    user: { content: user },
+    assistant: { ...ex.assistant, content: assistant }
+  }
+}
+
+export const __test__ = { applyMaxHeight }
+
 // wasm 파일 후보 경로 목록 (개발/번들/테스트 환경 순서로 탐색)
 const WASM_CANDIDATES = [
   join(__dirname, '../../node_modules/@resvg/resvg-wasm/index_bg.wasm'), // 개발: packages/core/dist/render/ → packages/core/node_modules/
@@ -43,10 +77,11 @@ export async function renderExchange(ex: Exchange, theme: Theme, opts: RenderOpt
   await ensureWasmInitialized()
 
   const width = opts.width ?? 720
-  const userBody = await mdastToSatori(parseMarkdown(ex.user.content), theme)
-  const aiBody = await mdastToSatori(parseMarkdown(ex.assistant.content), theme)
+  const truncated = applyMaxHeight(ex, opts.maxHeight)
+  const userBody = await mdastToSatori(parseMarkdown(truncated.user.content), theme)
+  const aiBody = await mdastToSatori(parseMarkdown(truncated.assistant.content), theme)
 
-  const tree = buildTree(ex, theme, width, userBody, aiBody)
+  const tree = buildTree(truncated, theme, width, userBody, aiBody)
 
   const svg = await satori(tree as never, {
     width: width + theme.outerPadding * 2,

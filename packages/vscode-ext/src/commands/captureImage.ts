@@ -8,13 +8,20 @@ export function getLastCapturePath(): string | null {
   return lastCapturePath
 }
 
-export async function captureImageCommand(context: vscode.ExtensionContext): Promise<void> {
+export async function captureImageCommand(
+  context: vscode.ExtensionContext,
+  opts?: { sessionPath?: string }
+): Promise<void> {
   const core = await loadCore()
   const cfg = getConfig()
   const ws = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
 
   try {
-    const ex = await core.selectLatestExchange({ source: cfg.source, workspaceHint: ws })
+    const ex = await core.selectLatestExchange({
+      source: cfg.source,
+      workspaceHint: ws,
+      sessionPath: opts?.sessionPath
+    })
     if (!ex) {
       vscode.window.showWarningMessage('Promptshot: 마지막 user→assistant 쌍을 찾지 못했습니다.')
       return

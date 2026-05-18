@@ -54,4 +54,22 @@ describe('selectLatestExchange', () => {
       selectLatestExchange({ source: 'codex', codexRoot: '/nonexistent/promptshot-test', claudeProjectsRoot: claudeDir })
     ).rejects.toThrow(/no Codex sessions/i)
   })
+
+  it('sessionPath overrides auto/source pick', async () => {
+    const codexNormal = resolve(__dirname, 'fixtures/codex/normal.jsonl')
+    const ex = await selectLatestExchange({
+      sessionPath: codexNormal,
+      codexRoot: codexDir,
+      claudeProjectsRoot: claudeDir
+    })
+    expect(ex).not.toBeNull()
+    expect(ex!.source).toBe('codex')
+    expect(ex!.sessionPath).toBe(codexNormal)
+  })
+
+  it('sessionPath throws when file missing', async () => {
+    await expect(
+      selectLatestExchange({ sessionPath: '/nonexistent/whatever.jsonl' })
+    ).rejects.toThrow(/not found/i)
+  })
 })

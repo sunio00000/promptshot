@@ -1,3 +1,4 @@
+import { stat } from 'node:fs/promises'
 import { CodexSource } from '../sources/codex.js'
 import { ClaudeCodeSource } from '../sources/claude-code.js'
 import type { Exchange, SourceId, SessionFile } from '../types.js'
@@ -5,15 +6,33 @@ import type { Exchange, SourceId, SessionFile } from '../types.js'
 export type SelectOptions = {
   source?: SourceId | 'auto'
   sessionId?: string
+  sessionPath?: string         // 지정 시 해당 JSONL 파일을 직접 파싱
   workspaceHint?: string
   codexRoot?: string
   claudeProjectsRoot?: string
 }
 
 export async function selectLatestExchange(opts: SelectOptions = {}): Promise<Exchange | null> {
-  const source = opts.source ?? 'auto'
   const codex = new CodexSource({ rootDir: opts.codexRoot })
   const claude = new ClaudeCodeSource({ projectsDir: opts.claudeProjectsRoot })
+
+  // sessionPath가 지정된 경우 해당 파일을 직접 파싱
+  if (opts.sessionPath) {
+    const s = await stat(opts.sessionPath).catch(() => null)
+    if (!s) throw new Error(`Session file not found: ${opts.sessionPath}`)
+    const file: SessionFile = { path: opts.sessionPath, mtime: s.mtime }
+    const normalized = opts.sessionPath.replace(/\\/g, '/')
+    if (normalized.includes('/.codex/sessions/') || normalized.includes('/codex/')) {
+      return codex.parseLastExchange(file)
+    }
+    if (normalized.includes('/.claude/projects/') || normalized.includes('/claude-code/')) {
+      return claude.parseLastExchange(file)
+    }
+    // 경로 추론 불가 시 양쪽 모두 시도해서 최초 non-null 반환
+    return (await codex.parseLastExchange(file)) ?? (await claude.parseLastExchange(file))
+  }
+
+  const source = opts.source ?? 'auto'
 
   if (source === 'codex') {
     const files = await codex.discoverSessions()
