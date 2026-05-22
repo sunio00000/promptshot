@@ -9,10 +9,10 @@ const coreEntryPath = join(root, 'packages/core/dist/index.js')
 const core = await import(pathToFileURL(coreEntryPath).href)
 
 const samples = {
-  short:   { user: '안녕!', assistant: '안녕하세요.' },
-  code:    { user: 'TypeScript 한 줄 예시', assistant: '```ts\nconst x: number = 1\nconsole.log(x)\n```' },
-  table:   { user: '간단한 표 좀', assistant: '| 항목 | 값 |\n|---|---|\n| 1 | 가 |\n| 2 | 나 |' },
-  longish: { user: '긴 답변 좀 줘', assistant: '## 헤딩\n\n- 한 줄\n- 두 줄\n- 세 줄\n\n**굵은 글씨**와 *기울임* 그리고 `인라인 코드`.' }
+  short:   { user: 'Hi!', assistant: 'Hello! How can I help?' },
+  code:    { user: 'Show me a TypeScript one-liner', assistant: '```ts\nconst x: number = 1\nconsole.log(x)\n```' },
+  table:   { user: 'Give me a small table', assistant: '| Item | Value |\n|---|---|\n| 1 | A |\n| 2 | B |' },
+  longish: { user: 'Give me a longer answer with formatting', assistant: '## Heading\n\n- First point\n- Second point\n- Third point\n\n**Bold** and *italic* and `inline code`.' }
 }
 
 const outDir = join(root, 'docs/samples')
