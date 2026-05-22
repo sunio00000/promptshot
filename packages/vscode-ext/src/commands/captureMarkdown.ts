@@ -21,7 +21,7 @@ export async function captureMarkdownCommand(opts?: { sessionPath?: string }): P
     const ai = core.redactSecrets(ex.assistant.content)
 
     const md = [
-      `**${ex.sourceLabel}** — ${ex.timestamp.toLocaleString()}`,
+      `**${ex.sourceLabel}** · via Promptshot — ${ex.timestamp.toLocaleString()}`,
       ``,
       `### You`,
       user.text,
