@@ -2,6 +2,15 @@
 
 All notable changes to Promptshot will be documented here.
 
+## [0.1.3] — 2026-05-22
+
+### Added
+- **Attribution line on every capture.** Both PNG (window chrome label) and markdown output now include ` · via Promptshot` so shared captures show their source. Example: `Claude Code · 5 min ago · via Promptshot`.
+
+### Changed
+- **Relative timestamps are now in English.** PNG chrome label changes from `5분 전 / 3시간 전 / 2일 전` to `5 min ago / 3 hr ago / 2 days ago`. Promptshot is a global-audience Marketplace extension; the previous Korean-only output limited shareability.
+- **README sample images are now in English.** Marketplace listing now shows English demo content instead of Korean.
+
 ## [0.1.2] — 2026-05-18
 
 ### Fixed
