@@ -175,7 +175,7 @@ function chrome(ex: Exchange, theme: Theme): SatoriNode {
               color: theme.textSecondary,
               fontSize: '12px'
             },
-            children: `${ex.sourceLabel} · ${formatRel(ex.timestamp)}`
+            children: `${ex.sourceLabel} · ${formatRel(ex.timestamp)} · via Promptshot`
           }
         }
       ]
