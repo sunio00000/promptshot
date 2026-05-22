@@ -45,7 +45,7 @@ function applyMaxHeight(ex: Exchange, maxHeight: number | undefined): Exchange {
   }
 }
 
-export const __test__ = { applyMaxHeight }
+export const __test__ = { applyMaxHeight, formatRel }
 
 // wasm 파일 후보 경로 목록 (개발/번들/테스트 환경 순서로 탐색)
 const WASM_CANDIDATES = [
