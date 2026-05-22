@@ -2,7 +2,7 @@
   "name": "promptshot",
   "displayName": "Promptshot — Beautiful AI Chat Captures",
   "description": "Capture Codex / Claude Code sidebar exchanges as shareable PNG or markdown.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": false,
   "license": "MIT",
   "publisher": "sunio",
