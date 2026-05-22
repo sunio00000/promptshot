@@ -2,6 +2,20 @@
 
 All notable changes to Promptshot will be documented here.
 
+## [0.1.4] — 2026-05-22
+
+### Added
+- **Expanded automatic redaction.** Six new secret patterns are now caught and masked before clipboard / file output:
+  - Anthropic API keys (`sk-ant-...`) — previously labeled as `openai`
+  - Slack tokens (`xoxb-`, `xoxp-`, `xapp-`, etc.)
+  - Stripe live/test/restricted keys (`sk_live_`, `pk_test_`, `rk_live_`, …)
+  - PEM private key blocks (RSA, EC, OpenSSH, generic `PRIVATE KEY`) — full multiline block
+  - Database connection URLs with credentials (`postgres://`, `mysql://`, `mongodb+srv://`, `redis://`, `amqps://`)
+  - Bearer tokens (generic `Bearer <token>`, JWT is still caught separately as `jwt`)
+
+### Changed
+- Redaction match order is now explicit: multiline blocks first, then specific prefixes (Anthropic before OpenAI, JWT before Bearer), then general patterns. Existing five patterns continue to behave identically.
+
 ## [0.1.3] — 2026-05-22
 
 ### Added
